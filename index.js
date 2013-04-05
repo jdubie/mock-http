@@ -39,14 +39,21 @@ updateRouteData();
 /*
  * Set routes
  */
-Object.keys(routeData).forEach(function(route) {
-  Object.keys(routeData[route]).forEach(function(method) {
+Object.keys(routeData.routes).forEach(function(route) {
+  Object.keys(routeData.routes[route]).forEach(function(method) {
     app[method](route, function(req, res) {
       // TODO: support non-json
       // TODO: support non-200
-      res.json(routeData[route][method])
+      res.json(routeData.routes[route][method])
     });
   });
+});
+
+/*
+ * Create static mappings
+ */
+routeData.static.forEach(function(route) {
+  app.use(route, express.static(directory));
 });
 
 /*
